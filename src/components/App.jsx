@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Notiflix from 'notiflix';
 import { fetchData } from './imageApiService';
 import { Container } from './App.styled';
@@ -21,29 +21,13 @@ export const App = () => {
   const [largeImageURL, setLargeImageURL] = useState('');
 
 
-    useEffect(() => {
+  useEffect(() => {
     if (!searchQuery) {
       return;
     }
     setIsLoading(true);
     fetchQuery(searchQuery, page);
   }, [searchQuery, page]);
-
-    const onSubmit = query => {
-    setSearchQuery(query);
-    setPicsArr([]);
-    setPage(1);
-  };
-
-    const toggleModal = (largeImageURL, imageTags) => {
-    setShowModal(!showModal);
-    setLargeImageURL(largeImageURL);
-    setImageTags(imageTags);
-  };
-
-    const onLoadMoreBtnClick = () => {
-    setPage(prevPage => prevPage + 1);
-  };
 
   async function fetchQuery(query, page) {
     try {
@@ -54,7 +38,7 @@ export const App = () => {
         const picsLeft = total - 12 * page;
 
         if (picsArr.length === 0) {
-          showLoadMoreBtn(false);
+          setShowLoadMoreBtn(false);
           Notiflix.Notify.failure(
             'Sorry, there are no images matching your search query. Please try again.'
           );
@@ -77,14 +61,29 @@ export const App = () => {
         'Sorry, something went wrong, please try again later'
       );
     } finally {
-      setIsLoading(false );
+      setIsLoading(false);
     }
   }
+
+    const onSubmit = query => {
+    setSearchQuery(query);
+    setPicsArr([]);
+    setPage(1);
+  };
+
+  const onLoadMoreBtnClick = () => {
+    setPage(prevPage => prevPage + 1);
+  };
+
+    const toggleModal = (largeImageURL, imageTags) => {
+    setShowModal(!showModal);
+    setLargeImageURL(largeImageURL);
+    setImageTags(imageTags);
+  };
 
     return (
       <>
         <Searchbar onSubmit={onSubmit} />
-
         <Container>
           <ImageGallery
             pics={picsArr}
@@ -111,3 +110,4 @@ export const App = () => {
       </>
     );
   };
+
