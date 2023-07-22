@@ -23,7 +23,6 @@ export const Btn = ({
 };
 
 Btn.propTypes = {
-  text: PropTypes.string.isRequired,
   icon: PropTypes.any,
   disabled: PropTypes.bool,
   type: PropTypes.string,
